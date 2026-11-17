@@ -1,6 +1,6 @@
 {
  "name": "lemon-kernel-release",
- "files": 984,
+ "files": 2399,
  "plugins": 881,
  "nettools_added": 34,
  "refreshed": [
@@ -46,5 +46,7 @@
   "autonomic"
  ],
  "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS",
- "guard_userspace": "08-guard-userspace/ (检测+恢复+开机自启)"
+ "guard_userspace": "08-guard-userspace/ (检测+恢复+开机自启)",
+ "plugins_selfcontained": 356,
+ "plugins_private": 516
 }
