@@ -1,6 +1,6 @@
 #!/system/bin/sh
 # 小柠檬面板后端开机自启(幂等,不碰现有开机链)
-PY=/data/data/com.termux/files/usr/bin/python3
+PY=${LEMON_PY:-/data/data/com.termux/files/usr/bin/python3}
 PANEL=/data/lemonbrain/work/panel/panel_server.py
 LOG=/data/lemonbrain/work/panel/boot.log
 (

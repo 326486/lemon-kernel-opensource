@@ -4,7 +4,9 @@
 P=/data/data/com.termux/files/usr
 SP=/data/lemonbrain/slimproxy/slim_proxy.py
 LOG=/data/lemonbrain/logs/slimproxy.log
-PORT=${LEMON_SLIM_PORT:-8791}
+PORT=${LEMON_SLIM_PORT:-8792}
+PY=${LEMON_PY:-$(command -v python3 2>/dev/null || echo ""$PY"")}
+while (exec 3<>/dev/tcp/127.0.0.1/$PORT) 2>/dev/null; do exec 3>&- 3<&-; PORT=$((PORT+1)); done
 PIDF=/data/lemonbrain/slimproxy/.slim.${PORT}.pid
 
 # 统一口径：用 /proc/net/tcp 判定 LISTEN（netstat 在 Android 上既慢又和影子测试口径不一致）
@@ -50,13 +52,13 @@ if [ -f "$PIDF" ]; then
 fi
 
 [ -f "$SP" ] || { echo "缺少 $SP"; exit 1; }
-[ -x "$P/bin/python3" ] || { echo "缺少 python3"; exit 1; }
+[ -n "$PY" ] || { echo "缺少python3,设LEMON_PY"; exit 1; }
 
 mkdir -p /data/lemonbrain/logs /data/lemonbrain/tools/_索引
 export LD_LIBRARY_PATH=$P/lib
 export PATH=$P/bin:$PATH
 
-nohup env LEMON_SLIM_PORT=$PORT $P/bin/python3 -u "$SP" >> "$LOG" 2>&1 &
+nohup env LEMON_SLIM_PORT=$PORT "$PY" -u "$SP" >> "$LOG" 2>&1 &
 NEW=$!
 
 # 3) 新进程必须存活
