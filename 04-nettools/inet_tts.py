@@ -5,7 +5,7 @@ from netcommon import out, die, clean
 
 HOST = 'speech.platform.bing.com'
 PATH = '/consumer/speech/synthesize/read/edge/v1?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4'
-TOKEN = '<REDACTED>'
+TOKEN = '6A5AA1D4EAFF4E9FB37E23D68491D6F4'
 
 def _ts():
     return datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
