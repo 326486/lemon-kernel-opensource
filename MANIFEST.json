@@ -45,5 +45,6 @@
   "magisk_boot_patch",
   "autonomic"
  ],
- "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS"
+ "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS",
+ "guard_userspace": "08-guard-userspace/ (检测+恢复+开机自启)"
 }
