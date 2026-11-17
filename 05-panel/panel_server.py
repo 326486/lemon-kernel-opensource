@@ -7,7 +7,11 @@ from concurrent.futures import ThreadPoolExecutor
 PORT=8794
 CORE='http://127.0.0.1:8788/'
 SAFE='http://127.0.0.1:8793/'
-TOKEN='Bearer <REDACTED_CREDENTIAL>'
+SLIM='http://127.0.0.1:8792/'
+def mcp_auto(method,params,token=None):
+    try: return mcp_auto(method,params,token)
+    except Exception: return mcp(SLIM,method,params,token)
+TOKEN='Bearer REDACTED_OLD_TOKEN'
 STAGE='/data/lemonbrain/work/v160_stage'
 AUDIT=STAGE+'/audit.jsonl'
 START=time.time()
@@ -118,7 +122,7 @@ def kb_search(q,kind=None):
     args={'query':q,'limit':12}
     if kind: args['kind']=kind
     try:
-        r=mcp(SAFE,'tools/call',{'name':'tool_search','arguments':args},token=TOKEN)
+        r=mcp_auto('tools/call',{'name':'tool_search','arguments':args},token=TOKEN)
         txt=r.get('result',{}).get('content',[{}])[0].get('text','{}')
         return json.loads(txt)
     except Exception as e:
@@ -161,7 +165,7 @@ class H(BaseHTTPRequestHandler):
         inner={'id':body.get('id'),'arguments':body.get('arguments') or {}}
         if body.get('confirm'): inner['confirm']='1'
         try:
-            r=mcp(SAFE,'tools/call',{'name':'tool_call','arguments':inner},token=TOKEN)
+            r=mcp_auto('tools/call',{'name':'tool_call','arguments':inner},token=TOKEN)
             self._j(r.get('result',r))
         except Exception as e:
             self._j({'error':str(e)},502)

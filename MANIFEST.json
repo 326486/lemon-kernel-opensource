@@ -31,5 +31,7 @@
   "02-mcp-server/safe_proxy_v160.py",
   "07-lemonguard/"
  ],
- "variant": "opensource"
+ "variant": "opensource",
+ "security_note": "SECURITY.md",
+ "bugfix": "exit-code/empty-filter/reload-path/panel-fallback"
 }

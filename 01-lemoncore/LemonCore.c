@@ -44,7 +44,7 @@ static int  UP_TIMEOUT  = 180000;   /* 上游桥超时：须大于 Java 侧工�
 static const char *PROTOCOL_VERSION = "2025-06-18";
 static const char *CORE_NAME  = "小柠檬内核";
 static const char *CORE_VER   = "1.4.0";
-#define RELOAD_FLAG "/data/adb/lemon_core/.reload_req"
+#define RELOAD_FLAG "/data/adb/lemon_kernel/.reload_req"
 #define MAX_CHILDREN 128
 #define MAX_BODY  (32u*1024*1024)
 #define MAX_OUT   (4u*1024*1024)
