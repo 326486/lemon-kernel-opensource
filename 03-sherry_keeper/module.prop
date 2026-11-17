@@ -1,0 +1,6 @@
+id=sherry_keeper
+name=贪吃雪莉 Sherry Keeper (Revival)
+version=v9.3.1-retention
+versionCode=931
+author=小柠檬2号分身·雪莉 / 千问Go!重建
+description=核心工具+AI判断+ReAct+15类自主分类+可见回收站+凌晨自主清理cron；P3待补分级授权/记忆进化/多轮上下文/音量键菜单

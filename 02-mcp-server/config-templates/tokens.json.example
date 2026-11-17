@@ -1,0 +1,7 @@
+{
+  "_说明": "分级令牌模板，复制为 .tokens.json 填入真实令牌，chmod 600，严禁提交",
+  "main": "<root级主令牌>",
+  "readonly": "<只读令牌>",
+  "write": "<读写令牌>",
+  "revoked": []
+}

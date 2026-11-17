@@ -1,0 +1,9 @@
+# 雪莉云脑配置模板 — 复制为 files/ai.conf 填入真实密钥，chmod 600，严禁提交真实密钥
+AI_PRIMARY_URL=http://127.0.0.1:3000/v1
+AI_FALLBACK_URL=http://127.0.0.1:9898/v1
+AI_KEY1=<小浣熊网关密钥>
+AI_KEY2=<备用密钥>
+AI_MODEL=sn-sensenova-6-8-flash
+AI_MODEL_ALT=sn-glm-5-3-flash
+AI_MAX_TOKENS=2048
+AI_TIMEOUT=40

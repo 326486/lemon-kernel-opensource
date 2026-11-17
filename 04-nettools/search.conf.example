@@ -1,0 +1,4 @@
+# 联网搜索配置模板 — 复制为 search.conf 填入真实密钥，chmod 600，严禁提交真实密钥
+RACCOON_URL=http://127.0.0.1:3000/v1
+RACCOON_KEY=<小浣熊网关密钥>
+RACCOON_MODEL=sn-sensenova-6-8-flash

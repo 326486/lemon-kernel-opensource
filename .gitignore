@@ -1,0 +1,16 @@
+# 凭据与运行时 —— 严禁提交云端
+.token*
+.tokens.json
+.cmdguard.json
+**/ai.conf
+**/search.conf
+**/__pycache__/
+*.pyc
+**/tasks/
+**/logs/
+**/recycle/
+**/status/
+*.log
+*.bak*
+lemoncore
+*.cpio
