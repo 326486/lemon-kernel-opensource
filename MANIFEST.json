@@ -33,5 +33,17 @@
  ],
  "variant": "opensource",
  "security_note": "SECURITY.md",
- "bugfix": "exit-code/empty-filter/reload-path/panel-fallback"
+ "bugfix": "exit-code/empty-filter/reload-path/panel-fallback",
+ "pruned_missing_tools": [
+  "cat_list",
+  "cat_search",
+  "sign_keytool",
+  "pentest_p037",
+  "pentest_p204",
+  "review_sched",
+  "xb_diag",
+  "magisk_boot_patch",
+  "autonomic"
+ ],
+ "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS"
 }

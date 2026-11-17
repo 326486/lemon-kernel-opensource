@@ -119,12 +119,18 @@ def tail_log(src,n=80):
     except Exception as e:
         return {'src':src,'lines':[],'error':str(e)}
 def kb_search(q,kind=None):
-    args={'query':q,'limit':12}
-    if kind: args['kind']=kind
+    import sqlite3
+    db='/data/lemonbrain/work/v160_stage/search.db'
     try:
-        r=mcp_auto('tools/call',{'name':'tool_search','arguments':args},token=TOKEN)
-        txt=r.get('result',{}).get('content',[{}])[0].get('text','{}')
-        return json.loads(txt)
+        con=sqlite3.connect(db);rows=[]
+        if len(q)>=3:
+            rows=con.execute("SELECT i.kind,i.key,i.title FROM items_fts f JOIN items i ON i.id=f.rowid WHERE items_fts MATCH ? ORDER BY f.rank LIMIT 12",(q,)).fetchall()
+        if not rows:
+            like='%'+q+'%'
+            rows=con.execute("SELECT kind,key,title FROM items WHERE title LIKE ? OR body LIKE ? LIMIT 12",(like,like)).fetchall()
+        con.close()
+        if kind: rows=[r for r in rows if r[0]==kind]
+        return {'ok':True,'data':{'results':[{'kind':r[0],'key':r[1],'title':r[2]} for r in rows],'count':len(rows)}}
     except Exception as e:
         return {'ok':False,'error':str(e)}
 def fmt_up(s):
