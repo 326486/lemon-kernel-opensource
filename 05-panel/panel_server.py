@@ -73,7 +73,7 @@ def sys_stats():
     except Exception: pass
     return d
 def get_status():
-    return {'services':[{'port':p,'name':n,'up':port_up(p)} for p,n in SERVICES],'system':sys_stats(),'ts':time.strftime('%F %T')}
+    return {'version':'1.5.0.1','services':[{'port':p,'name':n,'up':port_up(p)} for p,n in SERVICES],'system':sys_stats(),'ts':time.strftime('%F %T')}
 def get_audit(n=50):
     rows=[]
     try:
