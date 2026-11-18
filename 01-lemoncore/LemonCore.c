@@ -1,6 +1,7 @@
+#define LEMON_VERSION "1.5.0.1"
 /* ============================================================
  * LemonCore v1.0 · 原生 MCP 内核核心（🅒 去 Java 化第一步）
- * 2026-09-27 小柠檬本体 · 授权：lemon-user
+ * 2026-09-27 小柠檬本体 · 授权：小良
  * ------------------------------------------------------------
  * 纯 C，clang/NDK r30/aarch64 android24。
  * - fork-per-connection：崩溃隔离，单连接崩溃不拖垮内核
@@ -44,7 +45,7 @@ static int  UP_TIMEOUT  = 180000;   /* 上游桥超时：须大于 Java 侧工�
 static const char *PROTOCOL_VERSION = "2025-06-18";
 static const char *CORE_NAME  = "小柠檬内核";
 static const char *CORE_VER   = "1.4.0";
-#define RELOAD_FLAG "/data/adb/lemon_kernel/.reload_req"
+#define RELOAD_FLAG "/data/adb/lemon_core/.reload_req"
 #define MAX_CHILDREN 128
 #define MAX_BODY  (32u*1024*1024)
 #define MAX_OUT   (4u*1024*1024)
@@ -994,7 +995,7 @@ static int up_unique_count(void){
 
 /* ============================================================
  * LemonPilot · 内核级数据感知智能体 —— 内建原生工具 (v1.3.0)
- * 授权：lemon-user · 2026-11-16
+ * 授权：小良 · 2026-11-16
  * 感知：控件树语义解析（数据优先，视觉兜底）
  * 执行：动作原语 + 三级降级基础（协议/语义/GUI）
  * 结晶：成功路径沉淀为技能脚本，回放零Token

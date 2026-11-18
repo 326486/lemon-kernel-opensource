@@ -43,7 +43,7 @@ MT_LOCK = threading.Lock()
 LISTEN_PORT = int(os.environ.get("LEMON_SLIM_PORT", "8791"))
 LISTEN_HOST = os.environ.get("LEMON_SLIM_HOST", "127.0.0.1")
 LEMON_HOME = os.environ.get("LEMON_HOME", "/data/lemonbrain")
-VERSION = "1.5.4"
+VERSION = "1.5.0.1"
 
 # ==== v1.3.6 五域 resources 接口（可选模块：加载失败即降级，老链路零影响）====
 import os as _os
@@ -58,11 +58,11 @@ except Exception as _res_imp_err:
 IDX_DIR = os.path.join(LEMON_HOME, "tools/_索引")
 LOG_DIR = os.path.join(LEMON_HOME, "logs")
 LOG_FILE = os.path.join(LOG_DIR, "slimproxy.log")
-MAX_BYTES = 4096       # #418 标准：4KB 限长 + 全文落盘（261101 恢复分流，lemon-user钦定）
+MAX_BYTES = 4096       # #418 标准：4KB 限长 + 全文落盘（261101 恢复分流，小良钦定）
 LOG_MAX = 2 * 1024 * 1024
 PROTO = "2025-06-18"
 
-# ---- gate64k (261113, lemon-user批准): 输出门禁按需升级 ----
+# ---- gate64k (261113, 小良批准): 输出门禁按需升级 ----
 GATE_MAX = 65536       # max_bytes 硬上限
 GATE_RESERVE = 128     # file_read 块+提示预留（生产验证值，默认行为逐字节不变）
 
@@ -174,7 +174,7 @@ SSE_MAX_SESSIONS = 12     # SSE 并发流上限（防DoS）
 MAX_BODY = 1024 * 1024     # 请求体上限1MB
 import queue as _queue_mod   # 局部导入避免污染
 
-# ==================== v1.3.0 安全与体验加固（261111 · lemon-user验收）====================
+# ==================== v1.3.0 安全与体验加固（261111 · 小良验收）====================
 # 新增：①分级令牌(.tokens.json,可选,缺省完全兼容旧行为) ②危险命令护栏 ③写前快照
 #       ④结构化截断 _meta ⑤file_read 分段读取 ⑥审计日志 ⑦/metrics(仅本机口)
 # 全部默认开启安全项；LEMON_GUARD=0 / LEMON_SNAPSHOT=0 / LEMON_AUDIT=0 可关
@@ -1447,7 +1447,7 @@ def sse_handle_rpc(req, scope="root"):
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
     server_version = "LemonSlim/" + VERSION
-    timeout = 60   # v1.5.4: socket空闲超时(slowloris缓解; SSE有15s心跳, 不误杀长连接)
+    timeout = 60   # v1.5.0.1: socket空闲超时(slowloris缓解; SSE有15s心跳, 不误杀长连接)
 
     def log_message(self, fmt, *args):
         # REQ_LOG + SAFETY_V13: 记录入站请求，token 脱敏不落盘（v1.3.0 全令牌脱敏）
@@ -1718,7 +1718,7 @@ class HandlerPub(Handler):
     SAFETY_V13: ①连续失败熔断(有效Token随时可解除) ②/messages 的 sessionId 等效鉴权
     v1.3.0: 分级令牌——.tokens.json 存在时按 readonly/write/root 定级；
             不存在时旧 .token 恒 root（完全兼容现有 takin 链接）"""
-    server_version = "MCP"   # v1.5.4: 公网口去指纹, 不泄露版本/Python
+    server_version = "MCP"   # v1.5.0.1: 公网口去指纹, 不泄露版本/Python
     sys_version = ""
 
     def _token_scope(self, tok):
@@ -1775,7 +1775,7 @@ class HandlerPub(Handler):
                 FAIL_COUNT["n"] = 0
                 FAIL_COUNT["until"] = 0
             elif not cooling:
-                # 261114 lemon-user拍板 四档阶梯: 错1次封10分钟 → 连错5次封30分钟 → 连错3次封128分钟 → 之后每错一次随机封24~360小时
+                # 261114 小良拍板 四档阶梯: 错1次封10分钟 → 连错5次封30分钟 → 连错3次封128分钟 → 之后每错一次随机封24~360小时
                 _tier = min(FAIL_COUNT.get("bans", 0), 3)
                 _th, _sec = ((1, 600), (5, BAN_SECONDS), (3, 7680), (1, 0))[_tier]
                 if _tier == 3:

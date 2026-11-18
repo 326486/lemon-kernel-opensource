@@ -48,5 +48,6 @@
  "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS",
  "guard_userspace": "08-guard-userspace/ (检测+恢复+开机自启)",
  "plugins_selfcontained": 356,
- "plugins_private": 516
+ "plugins_private": 516,
+ "version": "1.5.0.1"
 }
