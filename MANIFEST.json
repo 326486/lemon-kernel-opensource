@@ -1,8 +1,8 @@
 {
  "name": "lemon-kernel-release",
  "files": 1141,
- "plugins": 881,
- "nettools_added": 34,
+ "plugins": 879,
+ "nettools_files": 181,
  "refreshed": [
   "01-lemoncore/LemonCore.c",
   "02-mcp-server/slim_proxy_v154.py",
@@ -28,7 +28,6 @@
  "prebuilt_app": "05-panel/prebuilt/lemon-panel.apk",
  "license": "MIT (LICENSE)",
  "closed_source": [
-  "02-mcp-server/safe_proxy_v160.py",
   "07-lemonguard/"
  ],
  "variant": "opensource",
@@ -47,7 +46,8 @@
  ],
  "bugfix2": "exec-rc/multiword-quote/empty-grep/panel-search-localFTS",
  "guard_userspace": "08-guard-userspace/ (检测+恢复+开机自启)",
- "plugins_selfcontained": 356,
- "plugins_private": 516,
- "version": "1.5.0.1"
+ "plugins_selfcontained": 358,
+ "plugins_private": 521,
+ "version": "1.5.0.1",
+ "docs_verified": "261123 · 按 git ls-files 与各目录实际文件数核对（plugins 879 = 公开 358 + 私有 521；04-nettools 181；safe_proxy_v160 已开源并脱敏，仅 07-lemonguard 闭源）"
 }
