@@ -1,0 +1,41 @@
+name: lemoncore build + registry check
+
+on:
+  push:
+    branches: [feat/plugin-dir-env]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile LemonCore.c
+        run: gcc -O2 -o /tmp/lemoncore 01-lemoncore/LemonCore.c
+
+      - name: Registry loads from LEMON_PLUGIN_DIR (363 tools)
+        run: |
+          set -e
+          LEMON_PLUGIN_DIR="$PWD/06-plugins" /tmp/lemoncore 8799 8790 0 &
+          sleep 2
+          n=$(curl -s -X POST http://127.0.0.1:8799/ -H 'Content-Type: application/json' \
+               -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' \
+               | python3 -c 'import sys,json;print(len(json.load(sys.stdin)["result"]["tools"]))')
+          echo "tools=$n"
+          pkill -f '/tmp/lemoncore 8799' || true
+          [ "$n" -eq 363 ]
+
+      - name: Default path keeps the old behaviour (5 built-in tools)
+        run: |
+          set -e
+          /tmp/lemoncore 8798 8790 0 &
+          sleep 2
+          n=$(curl -s -X POST http://127.0.0.1:8798/ -H 'Content-Type: application/json' \
+               -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' \
+               | python3 -c 'import sys,json;print(len(json.load(sys.stdin)["result"]["tools"]))')
+          echo "tools=$n"
+          pkill -f '/tmp/lemoncore 8798' || true
+          [ "$n" -eq 5 ]
