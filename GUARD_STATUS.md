@@ -4,3 +4,7 @@
 - 目录保护=用户态 guard_userspace.py（基线比对+告警+可选恢复），不碰内核。
 - 真拦截需求=LSM hook（高风险 bootloop，需重启验证窗口）或用户态检测+恢复；不建议 kprobe。
 - 重编 guard 须 clang+kcfi+normalize-integers、/proc/config.gz 取 .config、BTF 校准 struct module=1600；源码真实化(probes_ok)待重启窗口。
+
+## 本仓库说明（261123）
+- guard 内核模块（`07-lemonguard`）的源码与 KO **不在本仓库**，属闭源组件。
+- 开源版提供用户态替代：`08-guard-userspace/`（基线比对 + 告警 + 可选恢复 + 开机自启，4 个文件），不碰内核。
