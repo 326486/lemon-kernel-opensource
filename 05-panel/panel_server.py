@@ -9,9 +9,16 @@ CORE='http://127.0.0.1:8788/'
 SAFE='http://127.0.0.1:8793/'
 SLIM='http://127.0.0.1:8792/'
 def mcp_auto(method,params,token=None):
-    try: return mcp_auto(method,params,token)
-    except Exception: return mcp(SLIM,method,params,token)
-TOKEN='Bearer REDACTED_OLD_TOKEN'
+    try: return mcp(SAFE,method,params,TOKEN)
+    except Exception: return mcp(SLIM,method,params,TOKEN)
+TOKEN_FILE=os.environ.get('LEMON_TOKEN_FILE','/data/lemonbrain/.mcp_token')
+def _load_token():
+    t=(os.environ.get('LEMON_MCP_TOKEN') or '').strip()
+    if not t:
+        try: t=open(TOKEN_FILE,encoding='utf-8').read().strip()
+        except Exception: t=''
+    return ('Bearer '+t) if t else ''
+TOKEN=_load_token()
 STAGE='/data/lemonbrain/work/v160_stage'
 AUDIT=STAGE+'/audit.jsonl'
 START=time.time()
