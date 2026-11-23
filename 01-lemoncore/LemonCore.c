@@ -36,7 +36,7 @@
 
 /* ---------- 配置 ---------- */
 static int  PORT        = 8791;
-static const char *PLUGIN_DIR = "/data/adb/lemon_kernel/plugins";
+static const char *PLUGIN_DIR = "/data/adb/lemon_kernel/plugins";   /* 默认值，可被 LEMON_PLUGIN_DIR 覆盖 */
 static const char *LEGACY_DIR = "/data/adb/modules/LemonMCPRoot/lemon/tools";
 static const char *UP_HOST    = "127.0.0.1";
 static int  UP_PORT     = 8788;
@@ -2114,6 +2114,12 @@ int main(int argc, char **argv){
     if(argc>2){ UP_PORT = atoi(argv[2]);
         if(UP_PORT<0||UP_PORT>65535){ fprintf(stderr,"[lemoncore] 非法上游端口: %s\n",argv[2]); return 1; } }
     if(argc>3) UP_ENABLED = atoi(argv[3]);
+    {   /* 部署路径可覆盖：真机默认 /data/adb，容器/PRoot/CI 用环境变量 */
+        const char *pd = getenv("LEMON_PLUGIN_DIR");
+        if(pd && *pd) PLUGIN_DIR = pd;
+        const char *ld = getenv("LEMON_LEGACY_DIR");
+        if(ld && *ld) LEGACY_DIR = ld;
+    }
     signal(SIGCHLD, on_sigchld);
     signal(SIGPIPE,SIG_IGN);
     M = (Metrics*)mmap(NULL,sizeof(Metrics),PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
