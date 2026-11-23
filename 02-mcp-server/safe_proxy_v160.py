@@ -8,7 +8,14 @@ import urllib.request
 
 STAGE='/data/lemonbrain/work/v160_stage'
 UPSTREAM='http://127.0.0.1:8792/'
-TOKEN='Bearer REDACTED_OLD_TOKEN'
+TOKEN_FILE=os.environ.get('LEMON_TOKEN_FILE','/data/lemonbrain/.mcp_token')
+def _load_token():
+    t=(os.environ.get('LEMON_MCP_TOKEN') or '').strip()
+    if not t:
+        try: t=open(TOKEN_FILE,encoding='utf-8').read().strip()
+        except Exception: t=''
+    return ('Bearer '+t) if t else ''
+TOKEN=_load_token()
 PORT=8793
 AUDIT=f'{STAGE}/audit.jsonl'
 REG=json.load(open(f'{STAGE}/risk_registry.json',encoding='utf-8'))['tools']
@@ -84,7 +91,9 @@ def search(q,kind=None,k=8):
 
 def upstream(method,params):
     body=json.dumps({'jsonrpc':'2.0','id':1,'method':method,'params':params or {}}).encode()
-    rq=urllib.request.Request(UPSTREAM,data=body,headers={'Content-Type':'application/json','Accept':'application/json, text/event-stream','Authorization':TOKEN})
+    h={'Content-Type':'application/json','Accept':'application/json, text/event-stream'}
+    if TOKEN: h['Authorization']=TOKEN
+    rq=urllib.request.Request(UPSTREAM,data=body,headers=h)
     raw=urllib.request.urlopen(rq,timeout=300).read().decode('utf-8','replace')
     if raw.lstrip().startswith(('event:','data:')):
         for line in raw.splitlines():
